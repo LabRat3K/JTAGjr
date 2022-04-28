@@ -28,26 +28,6 @@ CON
 OBJ
   g                 : "JTAGulatorCon"     ' JTAGulator global constants
 
-    
-PUB LedOff
-  outa[g#LED_R] := 0 
-  outa[g#LED_G] := 0
-
-  
-PUB LedGreen
-  outa[g#LED_R] := 0 
-  outa[g#LED_G] := 1
-
-  
-PUB LedRed
-  outa[g#LED_R] := 1 
-  outa[g#LED_G] := 0
-
-  
-PUB LedYellow
-  outa[g#LED_R] := 1 
-  outa[g#LED_G] := 1
-
 
 PUB TXSEnable      ' Enable level shifter outputs
   dira[g#MAX_CHAN-1..0]~      ' Set all channels as inputs to avoid contention when driver is enabled. Pin directions will be configured by other methods as needed.
@@ -78,3 +58,15 @@ PUB Set_Pins_Input(start_ch, end_ch) | i   ' Set range of channels to input
 
 PUB Pause(ms)
   waitcnt(clkfreq / 1000 * ms + cnt)
+
+PUB LedStatus(status)
+  case status
+    g#LED_INIT:                 ' INIT = YELLOW^M
+      outa[g#LED_R] := 1
+      outa[g#LED_G] := 1
+    g#LED_PROCESSING:           ' Processing - Toggle GREEN LED
+      !outa[g#LED_R]
+    g#LED_IDLE:                 ' Idle - GREEN on - RED off
+      outa[g#LED_G] := 1
+      outa[g#LED_R] := 0
+

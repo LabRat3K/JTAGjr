@@ -154,7 +154,7 @@ PUB Go(tdi, tdo, tck, tms, bufPtr) | ctr
             
       CMD_TAP_SHIFT:
         if (++ctr // 10) == 0
-          !outa[g#LED_G]          ' Toggle LED between red and yellow
+          u.LedStatus(g#LED_PROCESSING)   ' Toggle LED between red and yellow
         
         if (GetMoreParamBytes(2) == -1)
           pst.Tx(0)

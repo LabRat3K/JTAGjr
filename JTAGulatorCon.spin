@@ -21,6 +21,11 @@ JTAGulator.
 
 
 CON
+  ' LED Status States
+  LED_INIT = 0 
+  LED_PROCESSING = 1
+  LED_IDLE = 2
+  
   ' JTAGulator I/O pin definitions
   PROP_SDA      = 29
   PROP_SCL      = 28  

@@ -161,10 +161,10 @@ PUB main | cmd
   ' Start command receive/process cycle
   repeat
     u.TXSDisable                   ' Disable level shifter outputs (high-impedance)
-    u.LEDGreen                     ' Set status indicator to show that we're ready
+    u.LedStatus(g#LED_IDLE)          ' Set status indicator to show that we're ready
     Display_Command_Prompt         ' Display command prompt
     pst.StrInMax(@vCmd,  MAX_LEN_CMD) ' Wait here to receive a carriage return terminated string or one of MAX_LEN_CMD bytes (the result is null terminated) 
-    u.LEDRed                            ' Set status indicator to show that we're processing a command
+    u.LedStatus(g#LED_PROCESSING)    ' Set status indicator to show that we're processing a command
 
     if (strsize(@vCmd) == 1)       ' Only single character commands are supported...
       cmd := vCmd[0]
@@ -1866,7 +1866,7 @@ PRI UART_Scan_TXD | i, t, ch, chmask, ctr, ctr_in, num, exit, xtxd, xbaud    ' I
                 xtxd := uTXD                         ' Keep track of most recent detection results
                 xbaud := uBaud
 
-                !outa[g#LED_G]                       ' Toggle LED between red and yellow
+                u.LedStatus(g#LED_PROCESSING)        ' Toggle LED between red and yellow
               else                                   ' If we receive pulses, but are ignoring them
                 ' Progress indicator
                 ++ctr_in
@@ -2183,7 +2183,7 @@ PRI Monitor_IO_Pins | value, prev   ' Read all channels (input, continuous)
     if (value <> prev)                ' If there's a change in state...
       prev := value                   ' Save new value
       Display_IO_Pins(value)          ' Display value
-      !outa[g#LED_G]                  ' Toggle LED between red and yellow
+      u.LedStatus(g#LED_PROCESSING)
 
   pst.RxFlush
 
@@ -2457,7 +2457,7 @@ PRI System_Init
    
   ' Set I/O pins to the proper initialization values
   u.TXSDisable    ' Disable level shifter outputs (high impedance)
-  u.LedYellow     ' Yellow = system initialization
+  u.LedStatus(g#LED_INIT)     ' Yellow = system initialization
 
   ' Set up PWM channel for DAC output
   ' Based on Andy Lindsay's PropBOE D/A Converter (http://learn.parallax.com/node/107)
@@ -2702,7 +2702,7 @@ PRI Display_Target_IO_Voltage
 
 PRI Display_Progress(ctr, mod, char)      ' Display a progress indicator during JTAGulation (every mod counts)
   if ((ctr // mod) == 0)
-    !outa[g#LED_G]            ' Toggle LED between red and yellow
+    u.LedStatus(g#LED_PROCESSING)         ' Toggle LED between red and yellow
     if (char <> 0)   
       pst.Str(@CharProgress)    ' Print character
 
@@ -2759,18 +2759,15 @@ PRI writeLong(addrReg, data) : ackbit | startTime
                
 DAT  
 InitHeader    byte CR, LF, LF
-              byte "                                    UU  LLL", CR, LF                                     
-              byte " JJJ  TTTTTTT AAAAA  GGGGGGGGGGG   UUUU LLL   AAAAA TTTTTTTT OOOOOOO  RRRRRRRRR", CR, LF 
-              byte " JJJJ TTTTTTT AAAAAA GGGGGGG       UUUU LLL  AAAAAA TTTTTTTT OOOOOOO  RRRRRRRR", CR, LF  
-              byte " JJJJ  TTTT  AAAAAAA GGG      UUU  UUUU LLL  AAA AAA   TTT  OOOO OOO  RRR RRR", CR, LF   
-              byte " JJJJ  TTTT  AAA AAA GGG  GGG UUUU UUUU LLL AAA  AAA   TTT  OOO  OOO  RRRRRRR", CR, LF   
-              byte " JJJJ  TTTT  AAA  AA GGGGGGGGG UUUUUUUU LLLLLLLL AAAA  TTT OOOOOOOOO  RRR RRR", CR, LF   
-              byte "  JJJ  TTTT AAA   AA GGGGGGGGG UUUUUUUU LLLLLLLLL AAA  TTT OOOOOOOOO  RRR RRR", CR, LF   
-              byte "  JJJ  TT                  GGG             AAA                         RR RRR", CR, LF   
-              byte " JJJ                        GG             AA                              RRR", CR, LF   
-              byte "JJJ                          G             A                                 RR", CR, LF, LF, LF 
-              byte "           Welcome to JTAGulator. Press 'H' for available commands.", CR, LF
-              byte "         Warning: Use of this tool may affect target system behavior!", 0
+              byte "        ____.________________    ________     __",CR,LF
+              byte "       |    |\__    ___/  _  \  /  _____/    |__|______",CR,LF
+              byte "       |    |  |    | /  /_\  \/   \  ___    |  \_  __ \",CR,LF
+              byte "   /\__|    |  |    |/    |    \    \_\  \   |  ||  | \/",CR,LF
+              byte "   \________|  |____|\____|__  /\______  /\__|  ||__|",CR,LF
+              byte "                             \/ 1.11.1 \/\______|",CR,LF
+              byte "               Based on the JTAGULATOR",CR,LF
+              byte "          Press 'H' for available commands.",CR,LF
+              byte "Warning: Use of this tool may affect target system behavior!", 0
 
 VersionInfo   byte CR, LF, "JTAGulator FW 1.11.1 (in progress)", CR, LF
               byte "Designed by Joe Grand, Grand Idea Studio, Inc.", CR, LF
