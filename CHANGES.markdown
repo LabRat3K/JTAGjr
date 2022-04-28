@@ -4,9 +4,18 @@ JTAGulator Change Log
 Visit the JTAGulator [GitHub repository](https://github.com/grandideastudio/jtagulator/commits/master) for full commit comments.
 
 
-<a id="v1_11"></a>1.11
+<a id="v1_11_1"></a>1.11.1
 ----
 Release date: **xx**
+
+* General: Minor text string updates.
+
+
+<a id="v1_11"></a>1.11
+----
+Release date: **April 14, 2021**
+
+* JTAG: Added Pin Mapper (EXTEST Scan) (`P`) to associate physical pins of a target chip with their positions in the JTAG Boundary Scan Register. The command uses JTAG's EXTEST instruction to shift known data onto the pins and looks for the result on any of JTAGulator's available channels. This can be useful for chip- or board-level reverse engineering or to provide information needed to access an external device connected to the target chip. Requires a known JTAG pinout and assumes a single device/TAP in the chain.
 
 * JTAG: Revised `Get_Device_IDs` to prevent reading multiple Device IDs from certain targets when only one actual Device ID exists.
 
@@ -70,7 +79,7 @@ Release date: **October 6, 2020**
 ---
 Release date: **June 17, 2020**
 
-* SWD: Added support for detecting [ARM Serial Wire Debug (SWD)](https://developer.arm.com/architectures/cpu-architecture/debug-visibility-and-trace/coresight-architecture/serial-wire-debug) interfaces. There are compatibility issues with many SWD-based targets and JTAGulator Rev. B and earlier hardware, which affect signal levels and detection results. See discussion in [Pull Request #30](https://github.com/grandideastudio/jtagulator/pull/30) (thanks to adamgreen). 
+* SWD: Added support for detecting [ARM Serial Wire Debug (SWD)](https://developer.arm.com/architectures/cpu-architecture/debug-visibility-and-trace/coresight-architecture/serial-wire-debug) interfaces. The JTAGulator's front-end circuitry is incompatible with many SWD-based targets. Detection results may be affected. See discussion in [Pull Request #30](https://github.com/grandideastudio/jtagulator/pull/30) (thanks to adamgreen). 
 
 * UART: Increased user string input size for `UART_Scan` to 16 bytes for both ASCII and hexadecimal input. [Issue #34](https://github.com/grandideastudio/jtagulator/issues/34)
 
@@ -129,9 +138,9 @@ Release date: **March 12, 2018**
 ---
 Release date: **November 3, 2016**
 
-* JTAG: Added command to transfer an instruction and data to/from a target (`X`). This is useful for testing and preliminary fuzzing. Requires a known JTAG pinout and assumes a single device in the chain.
+* JTAG: Added command to transfer an instruction and data to/from a target (`X`). This is useful for testing and preliminary fuzzing. Requires a known JTAG pinout and assumes a single device/TAP in the chain.
 
-* JTAG: Added Instruction/Data Register (IR/DR) discovery command (`Y`). Inspired by UrJTAG's `discovery` command, this is useful for identifying available (and possibly undocumented) instructions of a target. Requires a known JTAG pinout and assumes a single device in the chain.
+* JTAG: Added Instruction/Data Register (IR/DR) discovery command (`Y`). Inspired by UrJTAG's `discovery` command, this is useful for identifying available (and possibly undocumented) instructions of a target. Requires a known JTAG pinout and assumes a single device/TAP in the chain.
 
 * JTAG: Added `Detect_IR_Length` and `Detect_DR_Length` methods to automatically detect the length of the Instruction Register (IR) and Data Register (DR, given a specified IR), respectively.
 
