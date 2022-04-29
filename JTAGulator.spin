@@ -254,7 +254,7 @@ PRI Do_Main_Menu(cmd)
     "I", "i":                 ' Display JTAGulator version information
       pst.Str(@VersionInfo) 
 
-    "H", "h":                 ' Display list of available commands
+    "H", "h", "?":                 ' Display list of available commands
       Display_Menu_Text
 
     other:
@@ -398,7 +398,7 @@ PRI Do_Shared_Menu(cmd)
     "V", "v":                 ' Set target I/O voltage
       Set_Target_IO_Voltage
           
-    "H", "h":                 ' Display list of available commands
+    "H", "h", "?":                 ' Display list of available commands
       Display_Menu_Text
 
     "M", "m":                 ' Return to main menu
