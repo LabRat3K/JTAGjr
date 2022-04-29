@@ -74,7 +74,7 @@ PUB Go(tdi, tdo, tck, tms, bufPtr) | ctr
 
   vCmd := bufPtr
   
-  u.LEDRed                                     ' We are initialized and ready to go
+  u.LedStatus(g#LED_WARN)                      ' We are initialized and ready to go
   u.TXSEnable                                  ' Enable level shifter outputs
   u.Set_Pins_High(0, g#MAX_CHAN)               ' In case there is a signal on the target that needs to be held HIGH, like TRST# or SRST#
   jtag.Config(tdi, tdo, tck, tms)              ' Configure JTAG
@@ -91,7 +91,7 @@ PUB Go(tdi, tdo, tck, tms, bufPtr) | ctr
       'the 'short' commands follow; all are 1 byte, no parameters
 
       CMD_UNKNOWN:       ' From buspirate_bbio_enable and buspirate_jtag_reset in OpenOCD buspirate.c
-        u.LEDRed           ' Ensure LED turns back to red when OpenOCD is closed
+        u.LedStatus(g#LED_WARN) ' Ensure LED turns back to red when OpenOCD is closed
         pst.Str(@BBIO)
         
       CMD_ENTER_OOCD:

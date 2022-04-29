@@ -25,6 +25,9 @@ CON
   LED_INIT = 0 
   LED_PROCESSING = 1
   LED_IDLE = 2
+  LED_WARN = 3
+  LED_ERROR = 4
+  LED_OFF = 5
   
   ' JTAGulator I/O pin definitions
   PROP_SDA      = 29

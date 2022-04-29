@@ -227,7 +227,7 @@ PRI Do_Mode | ackbit     ' Read EEPROM to determine/select operating mode
 
     MODE_NORMAL:     ' JTAGulator main mode
       Set_Config_Defaults          ' Set configuration globals to default values
-      u.LEDYellow
+      u.LedStatus(g#LED_PROCESSING) 
       pst.CharIn                   ' Wait until the user presses a key before getting started
       pst.Str(@InitHeader)         ' Display header
     
@@ -1547,7 +1547,7 @@ PRI JTAG_OpenOCD(first_time) | ackbit   ' OpenOCD interface
   pst.Str(@MsgModeWarning)
     
   if (first_time == 1)
-    u.LEDRed
+    u.LedStatus(g#LED_WARN)
 
     if (Set_JTAG(1) == -1)  ' Ask user for the known JTAG pinout
       return                  ' Abort if error
@@ -2241,7 +2241,7 @@ PRI GPIO_Logic(first_time) | ackbit   ' Logic analyzer (OLS/SUMP)
   pst.Str(@MsgModeWarning)
     
   if (first_time == 1)
-    u.LEDRed
+    u.LedStatus(g#LED_WARN)
   
     ackbit := 0       ' Set flags so JTAGulator will start up in logic analyzer mode on next reset
     ackbit += writeLong(eepromAddress + EEPROM_MODE_OFFSET, MODE_SUMP)

@@ -135,6 +135,7 @@ VAR 'This is a struct used by the sampler cog; its layout and the offsets above 
 
   
 OBJ
+  g             : "JTAGulatorCon"     ' JTAGulator global constants
   u             : "JTAGulatorUtil"    ' JTAGulator general purpose utilities
   pst           : "JDCogSerial"       ' UART/Asynchronous Serial communication engine (Carl Jacobs, http://obex.parallax.com/object/298)
   
@@ -144,9 +145,9 @@ PRI Start    ' Start a new cog to run PASM routine
   Cog := cognew(@samplerInit, @clocksWait) + 1   ' Launch the cog with a pointer to the parameters
   if Cog =< 0    ' Failed to start SUMP sampler
     repeat  ' Repeat until system reset
-      u.LEDYellow
+      u.LedStatus(g#LED_ERROR)
       u.Pause(500)
-      u.LEDOff
+      u.LedStatus(g#LED_OFF)
       u.Pause(500)
       
 
@@ -186,7 +187,7 @@ PUB Go(bufPtr) | coggood, i, isSendSamples
 
   Start                   ' Start sampler cog
 
-  u.LEDRed                ' We are initialized and ready to go
+  u.LedStatus(g#LED_WARN) ' We are initialized and ready to go
   u.TXSEnable             ' Enable level shifter outputs (all channels set to inputs)
   
   ' Start command receive/process cycle
@@ -206,7 +207,7 @@ PUB Go(bufPtr) | coggood, i, isSendSamples
           samplerRunning:=0
           Stop        ' Stop sampler cog
           Start       ' Restart sampler cog
-          u.LEDRed
+          u.LedStatus(g#LED_WARN)
 
       CMD_QUERY_ID:
         pst.StrMax(@ID, @METADATA - @ID)
@@ -218,7 +219,7 @@ PUB Go(bufPtr) | coggood, i, isSendSamples
         SendSamples(ina[23..0])
 
       CMD_RUN:
-        u.LEDYellow
+        u.LedStatus(g#LED_INIT)
         i:=0
         repeat while i < MAX_SAMPLE_PERIODS ' Clear buffer before starting capture
           long[sampleBuffer][i++]:=$00000000
@@ -243,7 +244,7 @@ PUB Go(bufPtr) | coggood, i, isSendSamples
         if isSendSamples
           SendAllSamples
           
-        u.LEDRed
+        u.LedStatus(g#LED_WARN)
         
       'remaining commands are 'long' commands, which all take 4 parameters
 

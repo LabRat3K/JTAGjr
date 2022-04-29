@@ -61,6 +61,7 @@ PUB Pause(ms)
 
 PUB LedStatus(status)
   case status
+    g#LED_ERROR:	' Odd choice to have ERR & INIT the same?
     g#LED_INIT:                 ' INIT = YELLOW^M
       outa[g#LED_R] := 1
       outa[g#LED_G] := 1
@@ -68,5 +69,11 @@ PUB LedStatus(status)
       !outa[g#LED_R]
     g#LED_IDLE:                 ' Idle - GREEN on - RED off
       outa[g#LED_G] := 1
+      outa[g#LED_R] := 0
+    g#LED_WARN:                 ' Code appeared to go solid RED
+      outa[g#LED_G] := 0
+      outa[g#LED_R] := 1
+    g#LED_OFF:
+      outa[g#LED_G] := 0
       outa[g#LED_R] := 0
 
