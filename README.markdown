@@ -18,7 +18,7 @@ Firmware
 
 The JTAGulator firmware is built with the [Parallax Propeller Tool version 1.3.2](http://www.grandideastudio.com/wp-content/uploads/P8X32A-Setup-Propeller-Tool-v1.3.2.zip) for Windows. If you wish to compile code or contribute to the project, we recommend using this software. Alternative [development environments](https://www.parallax.com/download/propeller-1-software/) are untested and unsupported.
 
-Official releases: [https://github.com/grandideastudio/jtagulator/releases](https://github.com/grandideastudio/jtagulator/releases)
+Official releases: [https://github.com/grandideastudio/jtagulator/tags](https://github.com/grandideastudio/jtagulator/tags)
 
 Demonstration of the firmware update process: [https://www.youtube.com/watch?v=xlXwy-weG1M](https://www.youtube.com/watch?v=xlXwy-weG1M)
 
@@ -29,6 +29,7 @@ Author
 ------
 Created by Joe Grand of [Grand Idea Studio](http://www.grandideastudio.com). 
 
+Contributions by [@kbembedded](https://github.com/kbembedded), [@BenGardiner](https://github.com/BenGardiner), Bryan Angelo, [@adamgreen](https://github.com/adamgreen), [@0ff](https://github.com/0ff), [@stephengroat](https://github.com/stephengroat), [@alexmaloteaux](https://github.com/alexmaloteaux), HexView, [@piggybanks](https://github.com/piggybanks), Crypt, [@dummys](https://github.com/dummys), and Bob Heinemann.
 
 License
 -------
